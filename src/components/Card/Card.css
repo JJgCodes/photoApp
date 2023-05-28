@@ -12,7 +12,7 @@
 	margin: 1.1rem;
 	box-sizing: border-box;
 	border-radius: 0.6rem;
-	position: relative; /* Add this to set the card as a positioning context for absolute positioning */
+	position: relative; 
 }
 
 .card-title::first-letter {
@@ -45,8 +45,10 @@
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	padding: 0.5rem;
 	box-sizing: border-box;
+}
+.card-title{
+	padding: 0 0.5rem
 }
 
 .card-album-id {
