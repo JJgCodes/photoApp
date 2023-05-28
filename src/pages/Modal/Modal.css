@@ -1,0 +1,58 @@
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.4); /* Slightly gray background */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-content {
+	position: relative;
+}
+
+/* modal img */
+.modal-content img {
+	display: block;
+	margin: auto;
+	max-width: 100%;
+	height: auto;
+}
+
+/* close button */
+.modal button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0.5rem;
+	background: none;
+	border: none;
+	color: black;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.modal .close-button:hover {
+	color: white;
+}
+
+.modal .loading-text {
+	padding: 2rem;
+	background-color: white;
+	box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+	border-radius: 0.6rem;
+}
+
+.modal .error-text {
+	padding: 2rem;
+	background-color: white;
+	box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+	border-radius: 0.6rem;
+}
+.modal .error-text .close-button:hover,
+.modal .loading-text .close-button:hover {
+	color: red;
+}
