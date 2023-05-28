@@ -53,6 +53,7 @@ const Album = () => {
 						<Card
 							key={picture.id}
 							title={picture.title}
+							albumId={picture.albumId}
 							imageUrl={picture.thumbnailUrl}
 							onClick={() => handleCardClick(picture)}
 						/>

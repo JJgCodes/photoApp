@@ -5,9 +5,10 @@ interface CardProps {
 	title: string
 	imageUrl: string
 	onClick: () => void
+	albumId: number
 }
 
-const Card = ({ title, imageUrl, onClick }: CardProps) => {
+const Card = ({ title, imageUrl, onClick, albumId }: CardProps) => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 
@@ -36,9 +37,9 @@ const Card = ({ title, imageUrl, onClick }: CardProps) => {
 					/>
 				</div>
 			)}
-
 			<div className="card-content">
 				<h5 className="card-title">{title}</h5>
+				<p className="card-album-id">Album ID: {albumId}</p>
 			</div>
 		</div>
 	)

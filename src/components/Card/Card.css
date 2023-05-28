@@ -11,12 +11,8 @@
 	height: 20rem;
 	margin: 1.1rem;
 	box-sizing: border-box;
-
 	border-radius: 0.6rem;
-}
-
-.card-content {
-	padding: 0 0.625rem 1.25rem;
+	position: relative; /* Add this to set the card as a positioning context for absolute positioning */
 }
 
 .card-title::first-letter {
@@ -40,4 +36,19 @@
 
 .card:hover {
 	transform: translateY(-0.3rem);
+}
+
+.card-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 0.5rem;
+	box-sizing: border-box;
+}
+
+.card-album-id {
+	text-align: center;
 }
