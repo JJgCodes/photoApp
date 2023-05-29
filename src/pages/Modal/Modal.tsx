@@ -19,8 +19,8 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 	}
 
 	return (
-		<div className="modal">
-			<div className="modal-content">
+		<div className="modal" onClick={onClose}>
+			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
 				{isError && !isLoading ? (
 					<div className="error-text">
 						<button className="close-button" onClick={onClose}>
@@ -31,7 +31,7 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 				) : (
 					<div>
 						{isLoading && (
-							<div className='loading-text'>
+							<div className="loading-text">
 								<p>Loading.....</p>
 								<button className="close-button" onClick={onClose}>
 									X
