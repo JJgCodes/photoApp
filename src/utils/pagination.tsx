@@ -1,7 +1,9 @@
 import { Picture } from '../services/api'
 
-const paginate = (photoData: Picture[]) => {
-	const itemsPerPage = 18
+const paginate = (photoData: Picture[], items?: number) => {
+	//* created a default of 18 however function can accept a number *//
+	const itemsPerPage = items || 18
+	// pages calculations
 	const pages = Math.ceil(photoData.length / itemsPerPage)
 	const paginatedArray = []
 
