@@ -2,7 +2,7 @@ import './Modal.css'
 import { Picture } from '../../services/api'
 import { useState } from 'react'
 
-interface ModalProps {
+export interface ModalProps {
 	picture: Picture
 	onClose: () => void
 }
@@ -40,6 +40,8 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 						)}
 
 						<img
+							data-testid="thumbnail-img"
+							className="thumbnail-img"
 							src={picture.url}
 							alt={picture.title}
 							onLoad={handleImageLoad}
@@ -47,6 +49,7 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 							style={{ display: isLoading ? 'none' : 'block' }}
 						/>
 						<button
+							data-testid="loaded-close-button"
 							className="close-button"
 							onClick={onClose}
 							style={{ display: isLoading ? 'none' : 'block' }}
