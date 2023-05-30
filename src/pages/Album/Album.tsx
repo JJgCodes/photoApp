@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Album.css'
 import fetchPhotoData, { Picture } from '../../services/api'
 import paginate from '../../utils/pagination'
