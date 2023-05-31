@@ -1,14 +1,13 @@
+import { Picture } from '../../services/api'
 import './Card.css'
 import { useState } from 'react'
 
 interface CardProps {
-	title: string
-	imageUrl: string
+	picture: Picture
 	onClick: () => void
-	albumId: number
 }
 
-const Card = ({ title, imageUrl, onClick, albumId }: CardProps) => {
+const Card = ({ picture, onClick }: CardProps) => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 
@@ -24,13 +23,15 @@ const Card = ({ title, imageUrl, onClick, albumId }: CardProps) => {
 	return (
 		<div className="card" onClick={onClick}>
 			{isError && !isLoading ? (
-				<div className="error-text">Error loading image</div>
+				<div className="error-text">
+					<p>Error loading image</p>
+				</div>
 			) : (
 				<div className="img-container">
 					{isLoading && <p className="loading-text">Loading.....</p>}
 					<img
-						src={imageUrl}
-						alt={title}
+						src={picture.thumbnailUrl}
+						alt={picture.title}
 						onLoad={handleImageLoad}
 						onError={handleImageError}
 						style={{ display: isLoading ? 'none' : 'block' }}
@@ -38,8 +39,8 @@ const Card = ({ title, imageUrl, onClick, albumId }: CardProps) => {
 				</div>
 			)}
 			<div className="card-content">
-				<h5 className="card-title">{title}</h5>
-				<p className="card-album-id">Album ID: {albumId}</p>
+				<h5 className="card-title">{picture.title}</h5>
+				<p className="card-album-id">Album ID: {picture.albumId}</p>
 			</div>
 		</div>
 	)

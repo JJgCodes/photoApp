@@ -12,7 +12,7 @@
 	margin: 1.1rem;
 	box-sizing: border-box;
 	border-radius: 0.6rem;
-	position: relative; 
+	position: relative;
 }
 
 .card-title::first-letter {
@@ -47,10 +47,11 @@
 	width: 100%;
 	box-sizing: border-box;
 }
-.card-title{
-	padding: 0 0.5rem
+.card-title {
+	padding: 0 0.5rem;
 }
 
 .card-album-id {
 	text-align: center;
 }
+

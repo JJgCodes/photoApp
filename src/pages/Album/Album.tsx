@@ -46,19 +46,17 @@ const Album = () => {
 			<h1>Photo Album Viewer</h1>
 			{errorMessage && <p className="error-message">{errorMessage}</p>}
 			{/* Cards */}
-			<div className="card-container">
-				{currentData &&
-					currentData.length > 0 &&
-					currentData.map((picture: Picture) => (
-						<Card
-							key={picture.id}
-							title={picture.title}
-							albumId={picture.albumId}
-							imageUrl={picture.thumbnailUrl}
-							onClick={() => handleCardClick(picture)}
-						/>
-					))}
-			</div>
+			{currentData ? (
+				<div className="card-container">
+					{currentData.length > 0 &&
+						currentData.map((picture: Picture, index) => (
+							<Card key={index} picture={picture} onClick={() => handleCardClick(picture)} />
+						))}
+				</div>
+			) : (
+				<div>Loading.....</div>
+			)}
+
 			{/* page control/pagination */}
 			<div className="pagination">
 				<button
