@@ -16,7 +16,7 @@ const fetchPhotoData = async (): Promise<{ data: Picture[]; error: string }> => 
 		return { data, error: '' }
 	} catch (error: any) {
 		const errorMessage = error.message || 'An error occurred'
-		console.log(errorMessage)
+		// console.log(errorMessage)
 		return { data: [], error: errorMessage }
 	}
 }

@@ -1,20 +1,22 @@
 import fetchPhotoData from './api'
 
-test('Should return an array of Picture objects', async () => {
-	const result = await fetchPhotoData()
-	expect(Array.isArray(result.data)).toBe(true)
-	expect(result.data?.length).toBeGreaterThan(0)
-	expect(result.data?.[0]).toHaveProperty('albumId')
-	expect(result.data?.[0]).toHaveProperty('id')
-	expect(result.data?.[0]).toHaveProperty('title')
-	expect(result.data?.[0]).toHaveProperty('thumbnailUrl')
-	expect(result.data?.[0]).toHaveProperty('url')
-})
+describe('API', () => {
+	test('Should return an array of Picture objects', async () => {
+		const result = await fetchPhotoData()
+		expect(Array.isArray(result.data)).toBe(true)
+		expect(result.data?.length).toBeGreaterThan(0)
+		expect(result.data?.[0]).toHaveProperty('albumId')
+		expect(result.data?.[0]).toHaveProperty('id')
+		expect(result.data?.[0]).toHaveProperty('title')
+		expect(result.data?.[0]).toHaveProperty('thumbnailUrl')
+		expect(result.data?.[0]).toHaveProperty('url')
+	})
 
-test('Should return an error message', async () => {
-	const error = 'Failed to fetch data'
-	jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error(error))
-	const result = await fetchPhotoData()
-	expect(result.error).toBe(error)
-	jest.spyOn(global, 'fetch').mockRestore()
+	test('Should return an error message', async () => {
+		const error = 'Failed to fetch data'
+		jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error(error))
+		const result = await fetchPhotoData()
+		expect(result.error).toBe(error)
+		jest.spyOn(global, 'fetch').mockRestore()
+	})
 })

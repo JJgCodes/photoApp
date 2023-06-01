@@ -21,7 +21,7 @@ const Card = ({ picture, onClick }: CardProps) => {
 	}
 
 	return (
-		<div className="card" onClick={onClick}>
+		<div className="card" data-testid="card" onClick={onClick}>
 			{isError && !isLoading ? (
 				<div className="error-text">
 					<p>Error loading image</p>
