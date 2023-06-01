@@ -19,9 +19,12 @@ const Album = () => {
 			const { data, error } = await fetchPhotoData()
 			if (error) {
 				setErrorMessage(error)
+			} else if (!data.length) {
+				setErrorMessage('No Data to display')
 			} else {
 				setPhotoData(data)
 			}
+
 		}
 		fetchData()
 	}, [])
@@ -46,7 +49,7 @@ const Album = () => {
 			<h1>Photo Album Viewer</h1>
 			{errorMessage && <p className="error-message">{errorMessage}</p>}
 			{/* Cards */}
-			{currentData ? (
+			{currentData && !errorMessage ? (
 				<div className="card-container">
 					{currentData.length > 0 &&
 						currentData.map((picture: Picture, index) => (
@@ -54,7 +57,7 @@ const Album = () => {
 						))}
 				</div>
 			) : (
-				<div>Loading.....</div>
+				<div>{!errorMessage ? 'Loading....' : null}</div>
 			)}
 			{/* page control/pagination */}
 			{currentData && currentData.length > 0 && (
