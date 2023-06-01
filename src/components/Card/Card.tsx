@@ -34,7 +34,6 @@ const Card = ({ picture, onClick }: CardProps) => {
 						alt={picture.title}
 						onLoad={handleImageLoad}
 						onError={handleImageError}
-						style={{ display: isLoading ? 'none' : 'block' }}
 					/>
 				</div>
 			)}
