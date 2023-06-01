@@ -19,12 +19,9 @@ const Album = () => {
 			const { data, error } = await fetchPhotoData()
 			if (error) {
 				setErrorMessage(error)
-			} else if (!data.length) {
-				setErrorMessage('No Data to display')
 			} else {
 				setPhotoData(data)
 			}
-
 		}
 		fetchData()
 	}, [])

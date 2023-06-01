@@ -10,7 +10,7 @@ const fetchPhotoData = async (): Promise<{ data: Picture[]; error: string }> => 
 	try {
 		const response = await fetch('https://jsonplaceholder.typicode.com/photos')
 		const data = await response.json()
-		if (!response.ok) {
+		if (!response.ok || !data.length) {
 			throw new Error('Failed to fetch photo data')
 		}
 		return { data, error: '' }
