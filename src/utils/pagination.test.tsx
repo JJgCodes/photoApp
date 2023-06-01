@@ -40,25 +40,25 @@ describe('Paginate', () => {
 		},
 	]
 
-	test('Should return an array using default itemsPerPage of 18 in function', () => {
+	it('Should return an array using default itemsPerPage of 18 in function', () => {
 		const expectedPaginatedArray = [photoData]
 		const result = paginate(photoData)
 		expect(result).toEqual(expectedPaginatedArray)
 	})
 
-	test('Should handle the itemsPerPage argument in paginate function', () => {
+	it('Should handle the itemsPerPage argument in paginate function', () => {
 		// show 2 items match the paginated array
 		const testPhotoData = photoData.slice(0, 2)
-		const expectedPaginatedArray = [photoData.slice(0, 2)]
-
-		const result = paginate(testPhotoData, 4)
+		const expectedPaginatedArray = [testPhotoData]
+		const result = paginate(testPhotoData, 2)
 		expect(result).toEqual(expectedPaginatedArray)
 	})
 
-	test('Should handle empty Array', () => {
-		const photoData: any = []
+	it('Should handle empty Array', () => {
+		photoData.length = 0
+		// const photoData: any = []
 		const expectedPaginatedArray: any = []
 		const result = paginate(photoData)
-		expect(result).toEqual(expectedPaginatedArray)
+		expect(result).toStrictEqual(expectedPaginatedArray)
 	})
 })
