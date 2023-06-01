@@ -57,23 +57,25 @@ const Album = () => {
 				<div>Loading.....</div>
 			)}
 			{/* page control/pagination */}
-			<div className="pagination">
-				<button
-					disabled={currentPage === 1}
-					onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-				>
-					Previous
-				</button>
-				<span>
-					{currentPage} / {paginatedData.length}
-				</span>
-				<button
-					disabled={currentPage === paginatedData.length}
-					onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-				>
-					Next
-				</button>
-			</div>
+			{currentData && currentData.length > 0 && (
+				<div className="pagination">
+					<button
+						disabled={currentPage === 1}
+						onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+					>
+						Previous
+					</button>
+					<span>
+						{currentPage} / {paginatedData.length}
+					</span>
+					<button
+						disabled={currentPage === paginatedData.length}
+						onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+					>
+						Next
+					</button>
+				</div>
+			)}
 			{/* Modal */}
 			{modalOpen && selectedPicture && (
 				<Modal picture={selectedPicture} onClose={handleModalClose} />
