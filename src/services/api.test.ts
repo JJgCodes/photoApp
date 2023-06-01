@@ -1,6 +1,5 @@
 import fetchPhotoData from './api'
 
-
 describe('API', () => {
 	it('Should return an array of Picture objects', async () => {
 		const result = await fetchPhotoData()
