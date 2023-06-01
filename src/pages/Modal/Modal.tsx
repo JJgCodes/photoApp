@@ -10,6 +10,8 @@ export interface ModalProps {
 const Modal = ({ picture, onClose }: ModalProps) => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
+
+	
 	const handleImageLoad = () => {
 		setIsLoading(false)
 	}
@@ -17,6 +19,7 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 		setIsLoading(false)
 		setIsError(true)
 	}
+
 
 	return (
 		<div className="modal" onClick={onClose}>

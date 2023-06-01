@@ -56,7 +56,6 @@ const Album = () => {
 			) : (
 				<div>Loading.....</div>
 			)}
-
 			{/* page control/pagination */}
 			<div className="pagination">
 				<button
