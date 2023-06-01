@@ -32,7 +32,7 @@ describe('API', () => {
 
 	it('Should return an error message if data is empty', async () => {
 		const error = 'Failed to fetch photo data'
-		const emptyData: any = []
+		const emptyData: Picture[] = []
 		jest.spyOn(global, 'fetch').mockResolvedValueOnce({
 			json: jest.fn().mockResolvedValue(emptyData),
 		} as any as Response)
