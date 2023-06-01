@@ -12,11 +12,23 @@ describe('API', () => {
 		expect(result.data?.[0]).toHaveProperty('url')
 	})
 
-	it('Should return an error message', async () => {
+	it('Should return an error message on error', async () => {
 		const error = 'Failed to fetch data'
 		jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error(error))
 		const result = await fetchPhotoData()
 		expect(result.error).toBe(error)
-		jest.spyOn(global, 'fetch').mockRestore()
+	})
+
+	it('Should return an error message if data is empty', async () => {
+		const error = 'Failed to fetch photo data'
+		const emptyData: any = []
+		jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+			ok: true,
+			json: jest.fn().mockResolvedValue(emptyData),
+		} as any)
+
+		const result = await fetchPhotoData()
+		expect(result.data).toEqual(emptyData)
+		expect(result.error).toBe(error)
 	})
 })
