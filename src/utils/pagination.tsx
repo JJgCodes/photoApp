@@ -1,4 +1,4 @@
-import { Picture } from '../services/api'
+import { Picture } from '../pages/Album/Album'
 
 const paginate = (photoData: Picture[], items?: number) => {
 	//* created a default of 18 however function can accept a number *//

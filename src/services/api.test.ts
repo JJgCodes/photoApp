@@ -1,15 +1,18 @@
 import fetchPhotoData from './api'
+import { Picture } from '../pages/Album/Album'
 
 describe('API', () => {
 	it('Should return an array of Picture objects', async () => {
 		const result = await fetchPhotoData()
 		expect(Array.isArray(result.data)).toBe(true)
-		expect(result.data?.length).toBeGreaterThan(0)
-		expect(result.data?.[0]).toHaveProperty('albumId')
-		expect(result.data?.[0]).toHaveProperty('id')
-		expect(result.data?.[0]).toHaveProperty('title')
-		expect(result.data?.[0]).toHaveProperty('thumbnailUrl')
-		expect(result.data?.[0]).toHaveProperty('url')
+		expect(result.data.length).toBeGreaterThan(0)
+
+		const firstPicture: Picture = result.data?.[0]
+		expect(firstPicture.albumId).toBeDefined()
+		expect(firstPicture.id).toBeDefined()
+		expect(firstPicture.title).toBeDefined()
+		expect(firstPicture.thumbnailUrl).toBeDefined()
+		expect(firstPicture.url).toBeDefined()
 	})
 
 	it('Should return an error message on error', async () => {

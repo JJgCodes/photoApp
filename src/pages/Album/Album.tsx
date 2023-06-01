@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react'
 import './Album.css'
-import fetchPhotoData, { Picture } from '../../services/api'
+import fetchPhotoData from '../../services/api'
 import paginate from '../../utils/pagination'
 import Card from '../../components/Card/Card'
 import Modal from '../Modal/Modal'
+
+export interface Picture {
+	albumId: number
+	id: number
+	title: string
+	thumbnailUrl: string
+	url: string
+}
 
 const Album = () => {
 	// state

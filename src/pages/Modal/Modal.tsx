@@ -1,5 +1,5 @@
 import './Modal.css'
-import { Picture } from '../../services/api'
+import { Picture } from '../../pages/Album/Album'
 import { useState } from 'react'
 
 export interface ModalProps {

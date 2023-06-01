@@ -1,5 +1,5 @@
 import Modal from './Modal'
-import { Picture } from '../../services/api'
+import { Picture } from '../../pages/Album/Album'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 describe('Modal', () => {
