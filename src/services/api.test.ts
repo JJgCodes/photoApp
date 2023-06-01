@@ -6,7 +6,6 @@ describe('API', () => {
 		const result = await fetchPhotoData()
 		expect(Array.isArray(result.data)).toBe(true)
 		expect(result.data.length).toBeGreaterThan(0)
-
 		const firstPicture: Picture = result.data?.[0]
 		expect(firstPicture.albumId).toBeDefined()
 		expect(firstPicture.id).toBeDefined()
@@ -27,7 +26,7 @@ describe('API', () => {
 		jest.spyOn(global, 'fetch').mockResolvedValueOnce({
 			ok: false,
 			json: jest.fn(),
-		} as any)
+		} as any as Response)
 		const result = await fetchPhotoData()
 		expect(result.error).toBe(error)
 	})
@@ -38,7 +37,7 @@ describe('API', () => {
 		jest.spyOn(global, 'fetch').mockResolvedValueOnce({
 			ok: true,
 			json: jest.fn().mockResolvedValue(emptyData),
-		} as any)
+		} as any as Response)
 
 		const result = await fetchPhotoData()
 		expect(result.data).toEqual(emptyData)
