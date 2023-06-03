@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Album from './Album'
 
 describe('Album', () => {
@@ -163,10 +163,10 @@ describe('Album', () => {
 	})
 	it('Should fetch photo data on mount and display the cards', async () => {
 		render(<Album />)
-        // defaulted items per page.
+		// defaulted items per page.
 		const itemsPerPageDefault = 18
 		for (let i = 0; i < Math.min(mockPhotoData.length, itemsPerPageDefault); i++) {
-            const photoItem = mockPhotoData[i].title
+			const photoItem = mockPhotoData[i].title
 			console.log(`testing: ${photoItem}`)
 			expect(await screen.findByText(photoItem)).toBeInTheDocument()
 		}
