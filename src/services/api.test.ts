@@ -2,6 +2,9 @@ import fetchPhotoData from './api'
 import { Picture } from '../pages/Album/Album'
 
 describe('API', () => {
+	afterEach(() => {
+		jest.restoreAllMocks()
+	})
 	it('Should return an array of Picture objects', async () => {
 		const result = await fetchPhotoData()
 		expect(Array.isArray(result.data)).toBe(true)
@@ -25,7 +28,8 @@ describe('API', () => {
 		const error = 'Failed to fetch photo data'
 		jest.spyOn(global, 'fetch').mockResolvedValueOnce({
 			ok: false,
-		} as Response)
+			json: jest.fn(),
+		} as any as Response)
 		const result = await fetchPhotoData()
 		expect(result.error).toBe(error)
 	})
