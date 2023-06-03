@@ -38,7 +38,7 @@ describe('API', () => {
 		const error = 'Failed to fetch photo data'
 		const emptyData: Picture[] = []
 		jest.spyOn(global, 'fetch').mockResolvedValueOnce({
-			json: jest.fn().mockResolvedValue(emptyData),
+			json: jest.fn(),
 		} as any as Response)
 
 		const result = await fetchPhotoData()
