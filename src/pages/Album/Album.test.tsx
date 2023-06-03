@@ -165,8 +165,9 @@ describe('Album', () => {
 		render(<Album />)
 		const itemsPerPageDefault = 18
 		for (let i = 0; i < Math.min(mockPhotoData.length, itemsPerPageDefault); i++) {
-			console.log(`testing: photo${i + 1}`)
-			expect(await screen.findByText(`photo${i + 1}`)).toBeInTheDocument()
+            const photoItem = mockPhotoData[i].title
+			console.log(`testing: ${photoItem}`)
+			expect(await screen.findByText(photoItem)).toBeInTheDocument()
 		}
 	})
 })
