@@ -163,6 +163,7 @@ describe('Album', () => {
 	})
 	it('Should fetch photo data on mount and display the cards', async () => {
 		render(<Album />)
+        // defaulted items per page.
 		const itemsPerPageDefault = 18
 		for (let i = 0; i < Math.min(mockPhotoData.length, itemsPerPageDefault); i++) {
             const photoItem = mockPhotoData[i].title
