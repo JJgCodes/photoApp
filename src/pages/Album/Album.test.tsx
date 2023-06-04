@@ -158,7 +158,8 @@ describe('Album', () => {
 
 	it('Should render the component without an arror', async () => {
 		render(<Album />)
-		await waitForElementToBeRemoved(() => screen.queryByText('Loading data....'))
+		const titleText = await screen.findByText('Photo Album Viewer')
+		expect(titleText).toBeInTheDocument()
 	})
 
 	it('Should fetch photo data on mount and display the cards', async () => {
@@ -168,5 +169,16 @@ describe('Album', () => {
 		for (let i = 0; i < Math.min(mockPhotoData.length, itemsPerPageDefault); i++) {
 			expect(await screen.findByText(mockPhotoData[i].title)).toBeInTheDocument()
 		}
+	})
+
+	it('Should display error message if failed data and should not show loading message', async () => {
+		jest.spyOn(global, 'fetch').mockResolvedValue({
+			ok: false,
+			json: jest.fn(),
+		} as any as Response)
+		render(<Album />)
+		await waitForElementToBeRemoved(() => screen.queryByText('Loading data....'))
+		const loadingText = screen.getByText('Failed to fetch photo data')
+		expect(loadingText).toBeInTheDocument()
 	})
 })
