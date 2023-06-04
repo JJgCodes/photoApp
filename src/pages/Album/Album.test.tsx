@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import Album from './Album'
 
 describe('Album', () => {
@@ -145,6 +145,7 @@ describe('Album', () => {
 			url: 'photo20.jpg',
 		},
 	]
+
 	beforeEach(() => {
 		jest.spyOn(global, 'fetch').mockResolvedValue({
 			ok: true,
@@ -156,6 +157,7 @@ describe('Album', () => {
 		jest.restoreAllMocks()
 	})
 
+	// Render tests
 	it('Should render the component without an arror', async () => {
 		render(<Album />)
 		const titleText = await screen.findByText('Photo Album Viewer')
@@ -180,5 +182,34 @@ describe('Album', () => {
 		await waitForElementToBeRemoved(() => screen.queryByText('Loading data....'))
 		const loadingText = screen.getByText('Failed to fetch photo data')
 		expect(loadingText).toBeInTheDocument()
+	})
+
+	// Button tests
+	it('Should load with previous button disabled as will be the first set of paginated data', async () => {
+		render(<Album />)
+		const previousButton: HTMLButtonElement = await screen.findByText('Previous')
+		expect(previousButton.disabled).toBeTruthy()
+	})
+
+	it('Should disable the next button when on the last set of paginated data', async () => {
+		render(<Album />)
+		const nextButton: HTMLButtonElement = await screen.findByText('Next')
+		fireEvent.click(nextButton)
+		expect(nextButton.disabled).toBeTruthy()
+	})
+	// double up as tested in card component ?
+	it('Should open and close the modal when clicked', async () => {
+		render(<Album />)
+		// open
+		const cardItem = await screen.findByText(mockPhotoData[0].title)
+		fireEvent.click(cardItem)
+		const modalImg = screen.getByTestId('thumbnail-img')
+		expect(modalImg).toBeInTheDocument()
+
+		// close
+		const closeButton = screen.getByTestId('loaded-close-button')
+		fireEvent.click(closeButton)
+		expect(modalImg).not.toBeInTheDocument()
+		expect(closeButton).not.toBeInTheDocument()
 	})
 })

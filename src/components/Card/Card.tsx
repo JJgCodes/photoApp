@@ -1,4 +1,4 @@
-import { Picture } from '../../services/api'
+import { Picture } from '../../pages/Album/Album'
 import './Card.css'
 import { useState } from 'react'
 
