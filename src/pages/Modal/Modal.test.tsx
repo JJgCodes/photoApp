@@ -15,7 +15,7 @@ describe('Modal', () => {
 	const modalRender = () => render(<Modal picture={testPicture} onClose={onClose} />)
 
 
-	it('Should render with no error', async () => {
+	it('Should render with no error', () => {
 		modalRender()
 	})
 
