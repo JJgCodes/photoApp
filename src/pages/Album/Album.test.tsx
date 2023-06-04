@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import Album from './Album'
 
 describe('Album', () => {
@@ -146,8 +146,6 @@ describe('Album', () => {
 		},
 	]
 	beforeEach(() => {
-		// have issues with linter and recommendations , i could not find any other way around than to disable it this way.
-		jest.spyOn(console, 'error').mockImplementation(() => {})
 		jest.spyOn(global, 'fetch').mockResolvedValue({
 			ok: true,
 			json: jest.fn().mockResolvedValue(mockPhotoData),
@@ -158,16 +156,17 @@ describe('Album', () => {
 		jest.restoreAllMocks()
 	})
 
-	it('Should render the component without an arror', () => {
+	it('Should render the component without an arror', async () => {
 		render(<Album />)
+		await waitForElementToBeRemoved(() => screen.queryByText('Loading data....'))
 	})
+
 	it('Should fetch photo data on mount and display the cards', async () => {
 		render(<Album />)
 		// defaulted items per page.
 		const itemsPerPageDefault = 18
 		for (let i = 0; i < Math.min(mockPhotoData.length, itemsPerPageDefault); i++) {
 			const photoItem = mockPhotoData[i].title
-			console.log(`testing: ${photoItem}`)
 			expect(await screen.findByText(photoItem)).toBeInTheDocument()
 		}
 	})

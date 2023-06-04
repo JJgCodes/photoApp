@@ -62,7 +62,7 @@ const Album = () => {
 						))}
 				</div>
 			) : (
-				<div>{!errorMessage ? 'Loading....': null}</div>
+				<div>{!errorMessage ? 'Loading data....': null}</div>
 			)}
 			{/* page control/pagination */}
 			{currentData && currentData.length > 0 && (
