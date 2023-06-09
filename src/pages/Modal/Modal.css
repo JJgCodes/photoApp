@@ -55,3 +55,10 @@
 .modal .loading-text .close-button:hover {
 	color: red;
 }
+
+.modal-loaded {
+	display: block;
+}
+.modal-unloaded {
+	display: none;
+}

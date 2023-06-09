@@ -11,7 +11,6 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 
-	
 	const handleImageLoad = () => {
 		setIsLoading(false)
 	}
@@ -19,7 +18,6 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 		setIsLoading(false)
 		setIsError(true)
 	}
-
 
 	return (
 		<div className="modal" onClick={onClose}>
@@ -41,24 +39,19 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 								</button>
 							</div>
 						)}
-
-						<img
-							data-testid="thumbnail-img"
-							className="thumbnail-img"
-							src={picture.url}
-							alt={picture.title}
-							onLoad={handleImageLoad}
-							onError={handleImageError}
-							style={{ display: isLoading ? 'none' : 'block' }}
-						/>
-						<button
-							data-testid="loaded-close-button"
-							className="close-button"
-							onClick={onClose}
-							style={{ display: isLoading ? 'none' : 'block' }}
-						>
-							X
-						</button>
+						<div className={isLoading ? 'modal-unloaded' : 'modal-loaded'}>
+							<img
+								data-testid="thumbnail-img"
+								className="thumbnail-img"
+								src={picture.url}
+								alt={picture.title}
+								onLoad={handleImageLoad}
+								onError={handleImageError}
+							/>
+							<button data-testid="loaded-close-button" className="close-button" onClick={onClose}>
+								X
+							</button>
+						</div>
 					</div>
 				)}
 			</div>
