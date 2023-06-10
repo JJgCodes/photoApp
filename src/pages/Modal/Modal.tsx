@@ -19,14 +19,20 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 		setIsError(true)
 	}
 
+	const closeButton = (testId?: string) => {
+		return (
+			<button data-testid={testId || ''} className="close-button" onClick={onClose}>
+				X
+			</button>
+		)
+	}
+
 	return (
 		<div className="modal" onClick={onClose}>
 			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
 				{isError && !isLoading ? (
 					<div className="error-text">
-						<button className="close-button" onClick={onClose}>
-							X
-						</button>
+						{closeButton()}
 						<p>Error loading image</p>
 					</div>
 				) : (
@@ -34,9 +40,7 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 						{isLoading && (
 							<div className="loading-text">
 								<p>Loading.....</p>
-								<button className="close-button" onClick={onClose}>
-									X
-								</button>
+								{closeButton()}
 							</div>
 						)}
 						<div className={isLoading ? 'modal-unloaded' : 'modal-loaded'}>
@@ -48,9 +52,7 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 								onLoad={handleImageLoad}
 								onError={handleImageError}
 							/>
-							<button data-testid="loaded-close-button" className="close-button" onClick={onClose}>
-								X
-							</button>
+							{closeButton('loaded-close-button')}
 						</div>
 					</div>
 				)}
