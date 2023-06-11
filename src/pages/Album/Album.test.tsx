@@ -214,11 +214,6 @@ describe('Album', () => {
 	})
 
 	it('Should disable the next button when on the last set of paginated data', async () => {
-		// making 1 page of data only.
-		jest.spyOn(global, 'fetch').mockResolvedValue({
-			ok: true,
-			json: jest.fn().mockResolvedValue(mockPhotoData.slice(0, 16)),
-		} as any as Response)
 		renderAlbum()
 		const nextButton: HTMLButtonElement = await screen.findByText('Next')
 		fireEvent.click(nextButton)

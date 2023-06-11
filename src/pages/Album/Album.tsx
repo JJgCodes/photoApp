@@ -6,7 +6,6 @@ import { getPhotoData } from '../../state/apiSlice'
 import { AppDispatch, RootState } from '../../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { incrementPage, decrementPage } from '../../state/pageSlice'
-import React from 'react'
 
 export interface Picture {
 	albumId: number
@@ -20,8 +19,8 @@ const Album = () => {
 	// redux state
 	const dispatch = useDispatch<AppDispatch>()
 	const { error, status } = useSelector((state: RootState) => state.photoData) // Access the state from Redux
-	const currentPage = useSelector((state: RootState) => state.currentPage.page) // Access the state from Redux
 	const { paginatedData } = useSelector((state: RootState) => state.paginatedData)
+	const { page } = useSelector((state: RootState) => state.currentPage) // Access the state from Redux
 	const { isOpen } = useSelector((state: RootState) => state.modal)
 
 	// useEffect load data on mount
@@ -34,27 +33,21 @@ const Album = () => {
 			<h1>Photo Album Viewer</h1>
 			{status === 'failed' && <p className="error-message">{error}</p>}
 			{/* Cards */}
-			{paginatedData && status === 'succeeded' ? (
-				<React.Fragment>
-					<Card />
-					<div className="pagination">
-						<button disabled={currentPage === 1} onClick={() => dispatch(decrementPage())}>
-							Previous
-						</button>
-						<span>
-							{currentPage} / {paginatedData.length}
-						</span>
-						<button
-							disabled={currentPage === paginatedData.length}
-							onClick={() => dispatch(incrementPage())}
-						>
-							Next
-						</button>
-					</div>
-				</React.Fragment>
-			) : (
-				<div>{status === 'loading' ? 'Loading data....' : null}</div>
-			)}
+			{status === 'succeeded' && paginatedData && <Card />}
+			<div className="pagination">
+				<button disabled={page === 1} onClick={() => dispatch(decrementPage())}>
+					Previous
+				</button>
+				<span>
+					{page} / {paginatedData.length}
+				</span>
+				<button
+					onClick={() => dispatch(incrementPage())}
+					disabled={page === paginatedData.length -1 }
+				>
+					Next
+				</button>
+			</div>
 			{/* Modal */}
 			{isOpen && <Modal />}
 		</div>
