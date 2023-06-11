@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
 import './Album.css'
-import fetchPhotoData from '../../services/api'
-import paginate from '../../utils/pagination'
 import Card from '../../components/Card/Card'
 import Modal from '../Modal/Modal'
+import { useEffect } from 'react'
+import { getPhotoData } from '../../state/apiSlice'
+import { AppDispatch, RootState } from '../../store'
+import { useDispatch, useSelector } from 'react-redux'
+import { incrementPage, decrementPage } from '../../state/pageSlice'
+import React from 'react'
 
 export interface Picture {
 	albumId: number
@@ -14,80 +17,46 @@ export interface Picture {
 }
 
 const Album = () => {
-	// state
-	const [photoData, setPhotoData] = useState<Picture[]>([])
-	const [currentPage, setCurrentPage] = useState(1)
-	const [modalOpen, setModalOpen] = useState(false)
-	const [selectedPicture, setSelectedPicture] = useState<Picture | null>(null)
-	const [errorMessage, setErrorMessage] = useState<string | null>('')
+	// redux state
+	const dispatch = useDispatch<AppDispatch>()
+	const { error, status } = useSelector((state: RootState) => state.photoData) // Access the state from Redux
+	const currentPage = useSelector((state: RootState) => state.currentPage.page) // Access the state from Redux
+	const { paginatedData } = useSelector((state: RootState) => state.paginatedData)
+	const { isOpen } = useSelector((state: RootState) => state.modal)
 
 	// useEffect load data on mount
 	useEffect(() => {
-		const fetchData = async () => {
-			const { data, error } = await fetchPhotoData()
-			if (error) {
-				setErrorMessage(error)
-			} else {
-				setPhotoData(data)
-			}
-		}
-		fetchData()
-	}, [])
-
-	// functions handling click and modal
-	const handleCardClick = (picture: Picture) => {
-		setSelectedPicture(picture)
-		setModalOpen(true)
-	}
-
-	const handleModalClose = () => {
-		setModalOpen(false)
-		setSelectedPicture(null)
-	}
-
-	// Pagination
-	const paginatedData = paginate(photoData)
-	const currentData = paginatedData[currentPage - 1]
+		dispatch(getPhotoData())
+	}, [dispatch])
 
 	return (
 		<div className="album">
 			<h1>Photo Album Viewer</h1>
-			{errorMessage && <p className="error-message">{errorMessage}</p>}
+			{status === 'failed' && <p className="error-message">{error}</p>}
 			{/* Cards */}
-			{currentData && !errorMessage ? (
-				<div className="card-container">
-					{currentData.length > 0 &&
-						currentData.map((picture: Picture, index) => (
-							<Card key={index} picture={picture} onClick={() => handleCardClick(picture)} />
-						))}
-				</div>
+			{paginatedData && status === 'succeeded' ? (
+				<React.Fragment>
+					<Card />
+					<div className="pagination">
+						<button disabled={currentPage === 1} onClick={() => dispatch(decrementPage())}>
+							Previous
+						</button>
+						<span>
+							{currentPage} / {paginatedData.length}
+						</span>
+						<button
+							disabled={currentPage === paginatedData.length}
+							onClick={() => dispatch(incrementPage())}
+						>
+							Next
+						</button>
+					</div>
+				</React.Fragment>
 			) : (
-				<div>{!errorMessage ? 'Loading data....': null}</div>
-			)}
-			{/* page control/pagination */}
-			{currentData && currentData.length > 0 && (
-				<div className="pagination">
-					<button
-						disabled={currentPage === 1}
-						onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-					>
-						Previous
-					</button>
-					<span>
-						{currentPage} / {paginatedData.length}
-					</span>
-					<button
-						disabled={currentPage === paginatedData.length}
-						onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-					>
-						Next
-					</button>
-				</div>
+				<div>{status === 'loading' ? 'Loading data....' : null}</div>
 			)}
 			{/* Modal */}
-			{modalOpen && selectedPicture && (
-				<Modal picture={selectedPicture} onClose={handleModalClose} />
-			)}
+			{isOpen && <Modal />}
 		</div>
 	)
 }

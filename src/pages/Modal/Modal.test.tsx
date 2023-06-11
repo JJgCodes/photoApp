@@ -1,6 +1,8 @@
 import Modal from './Modal'
 import { Picture } from '../../pages/Album/Album'
 import { fireEvent, render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import store from '../../store'
 
 describe('Modal', () => {
 	const testPicture: Picture = {
@@ -11,9 +13,12 @@ describe('Modal', () => {
 		thumbnailUrl: 'https://example.com/thumbnail.jpg',
 	}
 
-	const onClose = jest.fn()
-	const modalRender = () => render(<Modal picture={testPicture} onClose={onClose} />)
-
+	const modalRender = () =>
+		render(
+			<Provider store={store}>
+				<Modal />
+			</Provider>
+		)
 
 	it('Should render with no error', () => {
 		modalRender()

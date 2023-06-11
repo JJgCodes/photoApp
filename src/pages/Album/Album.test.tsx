@@ -1,5 +1,7 @@
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Album from './Album'
+import { Provider } from 'react-redux'
+import store from '../../store'
 
 describe('Album', () => {
 	// https://json-generator.com/
@@ -157,49 +159,30 @@ describe('Album', () => {
 		jest.restoreAllMocks()
 	})
 
+	const renderAlbum = () =>
+		render(
+			<Provider store={store}>
+				<Album />
+			</Provider>
+		)
+
 	// Render tests
 	it('Should render the component without an arror', async () => {
-		render(<Album />)
+		renderAlbum()
 		const titleText = await screen.findByText('Photo Album Viewer')
 		expect(titleText).toBeInTheDocument()
 	})
 
 	it('Should fetch photo data on mount and display the cards', async () => {
-		render(<Album />)
+		renderAlbum()
 		// defaulted items per page.
 		const itemsPerPageDefault = 18
 		for (let i = 0; i < Math.min(mockPhotoData.length, itemsPerPageDefault); i++) {
 			expect(await screen.findByText(mockPhotoData[i].title)).toBeInTheDocument()
 		}
 	})
-
-	it('Should display error message if failed data and should not show loading message', async () => {
-		jest.spyOn(global, 'fetch').mockResolvedValue({
-			ok: false,
-			json: jest.fn(),
-		} as any as Response)
-		render(<Album />)
-		await waitForElementToBeRemoved(() => screen.queryByText('Loading data....'))
-		const loadingText = screen.getByText('Failed to fetch photo data')
-		expect(loadingText).toBeInTheDocument()
-	})
-
-	// Button tests
-	it('Should load with previous button disabled as will be the first set of paginated data', async () => {
-		render(<Album />)
-		const previousButton: HTMLButtonElement = await screen.findByText('Previous')
-		expect(previousButton.disabled).toBeTruthy()
-	})
-
-	it('Should disable the next button when on the last set of paginated data', async () => {
-		render(<Album />)
-		const nextButton: HTMLButtonElement = await screen.findByText('Next')
-		fireEvent.click(nextButton)
-		expect(nextButton.disabled).toBeTruthy()
-	})
-	// double up as tested in card component ?
 	it('Should open and close the modal when clicked', async () => {
-		render(<Album />)
+		renderAlbum()
 		// open
 		const cardItem = await screen.findByText(mockPhotoData[0].title)
 		fireEvent.click(cardItem)
@@ -211,5 +194,34 @@ describe('Album', () => {
 		fireEvent.click(closeButton)
 		expect(modalImg).not.toBeInTheDocument()
 		expect(closeButton).not.toBeInTheDocument()
+	})
+
+	it('Should display error message if failed data and should not show loading message', async () => {
+		jest.spyOn(global, 'fetch').mockResolvedValue({
+			ok: false,
+			json: jest.fn().mockResolvedValue(mockPhotoData),
+		} as any as Response)
+		renderAlbum()
+		const loadingText = await screen.findByText('Failed to fetch photo data')
+		expect(loadingText).toBeInTheDocument()
+	})
+
+	// Button tests
+	it('Should load with previous button disabled as will be the first set of paginated data', async () => {
+		renderAlbum()
+		const previousButton: HTMLButtonElement = await screen.findByText('Previous')
+		expect(previousButton.disabled).toBeTruthy()
+	})
+
+	it('Should disable the next button when on the last set of paginated data', async () => {
+		// making 1 page of data only.
+		jest.spyOn(global, 'fetch').mockResolvedValue({
+			ok: true,
+			json: jest.fn().mockResolvedValue(mockPhotoData.slice(0, 16)),
+		} as any as Response)
+		renderAlbum()
+		const nextButton: HTMLButtonElement = await screen.findByText('Next')
+		fireEvent.click(nextButton)
+		expect(nextButton.disabled).toBeTruthy()
 	})
 })

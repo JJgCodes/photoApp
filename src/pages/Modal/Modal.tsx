@@ -1,15 +1,15 @@
 import './Modal.css'
-import { Picture } from '../../pages/Album/Album'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store'
+import { setModalOpen, setModalPicture } from '../../state/modalSlice'
 
-export interface ModalProps {
-	picture: Picture
-	onClose: () => void
-}
-
-const Modal = ({ picture, onClose }: ModalProps) => {
+const Modal = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
+
+	const dispatch = useDispatch<AppDispatch>()
+	const { picture } = useSelector((state: RootState) => state.modal) // Access the state from Redux
 
 	const handleImageLoad = () => {
 		setIsLoading(false)
@@ -19,16 +19,22 @@ const Modal = ({ picture, onClose }: ModalProps) => {
 		setIsError(true)
 	}
 
+	const handleModalClose = () => {
+		dispatch(setModalOpen(false))
+		dispatch(setModalPicture([]))
+	}
+
 	const closeButton = (testId?: string) => {
 		return (
-			<button data-testid={testId || ''} className="close-button" onClick={onClose}>
+			<button data-testid={testId || ''} className="close-button" onClick={handleModalClose}>
 				X
 			</button>
 		)
 	}
 
+
 	return (
-		<div className="modal" onClick={onClose}>
+		<div className="modal" onClick={handleModalClose}>
 			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
 				{isError && !isLoading ? (
 					<div className="error-text">
