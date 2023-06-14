@@ -1,17 +1,12 @@
 import Modal from './Modal'
-import { Picture } from '../../pages/Album/Album'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../store'
+import  configureStore  from 'redux-mock-store'
 
 describe('Modal', () => {
-	const testPicture: Picture = {
-		albumId: 1,
-		id: 1,
-		title: 'Sample Picture',
-		url: 'https://example.com/image.jpg',
-		thumbnailUrl: 'https://example.com/thumbnail.jpg',
-	}
+	// Create a mock store
+	const mockStore = configureStore([])
+	const store = mockStore({ modal: { picture: { url: 'test-url', title: 'test-title' } } })
 
 	const modalRender = () =>
 		render(
@@ -20,14 +15,10 @@ describe('Modal', () => {
 			</Provider>
 		)
 
-	it('Should render with no error', () => {
+	it('Should render with no error', async () => {
 		modalRender()
-	})
-
-	it('Should display Loading test when loading state is true', () => {
-		modalRender()
-		const loadingText = screen.getByText('Loading.....')
-		expect(loadingText).toBeInTheDocument()
+		const modalObj = screen.getByText('Loading.....')
+		expect(modalObj).toBeInTheDocument()
 	})
 
 	it('Should display error text when isError is true', () => {
