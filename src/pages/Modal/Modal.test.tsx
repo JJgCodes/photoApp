@@ -1,7 +1,8 @@
 import Modal from './Modal'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import  configureStore  from 'redux-mock-store'
+import configureStore from 'redux-mock-store'
+import { setModalOpen, setModalPicture } from '../../state/modalSlice'
 
 describe('Modal', () => {
 	// Create a mock store
@@ -32,5 +33,14 @@ describe('Modal', () => {
 		modalRender()
 		const closeButton = screen.getByTestId('loaded-close-button')
 		expect(closeButton).toBeInTheDocument()
+	})
+	it('Should close modal when the close button is clicked', () => {
+		modalRender()
+		const closeButton = screen.getByTestId('loaded-close-button')
+		fireEvent.click(closeButton)
+		// Mock the event actions of the close button click
+		const actions = store.getActions()
+		expect(actions).toContainEqual(setModalOpen(false))
+		expect(actions).toContainEqual(setModalPicture([]))
 	})
 })
