@@ -2,7 +2,7 @@ import './Album.css'
 import Cards from '../../components/Card/Card'
 import Modal from '../Modal/Modal'
 import { useEffect } from 'react'
-import { getPhotoData } from '../../state/apiSlice'
+import { getPhotoData, Status } from '../../state/apiSlice'
 import { AppDispatch, RootState } from '../../store'
 import { useDispatch, useSelector } from 'react-redux'
 import PageControl from './PageControl'
@@ -15,11 +15,6 @@ export interface Picture {
 	url: string
 }
 
-enum Status {
-	Loading = 'loading',
-	Succeeded = 'succeeded',
-	Failed = 'failed',
-}
 const Album = () => {
 	// redux state
 	const dispatch = useDispatch<AppDispatch>()
@@ -52,6 +47,7 @@ const Album = () => {
 	return (
 		<div className="album">
 			<h1>Photo Album Viewer</h1>
+			{/* render the status/outcome */}
 			{renderedOptions()}
 		</div>
 	)

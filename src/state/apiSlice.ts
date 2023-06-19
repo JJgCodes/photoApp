@@ -2,16 +2,25 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchPhotoData from '../services/api'
 import { Picture } from '../pages/Album/Album'
 
+
+
+export enum Status {
+	Loading = 'loading',
+	Succeeded = 'succeeded',
+	Failed = 'failed',
+}
+
+
 interface apiState {
 	data: Picture[]
 	error: string
-	status: 'loading' | 'succeeded' | 'failed'
+	status: Status
 }
 
 const initialState: apiState = {
 	data: [],
 	error: '',
-	status: 'loading',
+	status: Status.Loading,
 }
 
 export const getPhotoData = createAsyncThunk('photoData/getData', async () => {
@@ -33,14 +42,14 @@ const apiSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(getPhotoData.pending, (state) => {
-				state.status = 'loading'
+				state.status = Status.Loading
 			})
 			.addCase(getPhotoData.fulfilled, (state, action) => {
-				state.status = 'succeeded'
+				state.status = Status.Succeeded
 				state.data = action.payload
 			})
 			.addCase(getPhotoData.rejected, (state, action) => {
-				state.status = 'failed'
+				state.status = Status.Failed
 				state.error = action.error.message || 'An error occurred'
 			})
 	},
