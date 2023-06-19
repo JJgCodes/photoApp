@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchPhotoData from '../services/api'
 import { Picture } from '../pages/Album/Album'
 
-type apiState = {
+interface apiState {
 	data: Picture[]
 	error: string
 	status: 'loading' | 'succeeded' | 'failed'

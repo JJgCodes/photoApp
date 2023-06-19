@@ -15,6 +15,11 @@ export interface Picture {
 	url: string
 }
 
+enum Status {
+	Loading = 'loading',
+	Succeeded = 'succeeded',
+	Failed = 'failed',
+}
 const Album = () => {
 	// redux state
 	const dispatch = useDispatch<AppDispatch>()
@@ -25,19 +30,29 @@ const Album = () => {
 		dispatch(getPhotoData())
 	}, [dispatch])
 
+	const renderedOptions = () => {
+		switch (status) {
+			case Status.Loading:
+				return <p className="loading-message">Loading....</p>
+			case Status.Failed:
+				return <p className="error-message">{error}</p>
+			case Status.Succeeded:
+				return (
+					<div>
+						<Cards />
+						<PageControl />
+						{isOpen && <Modal />}
+					</div>
+				)
+			default:
+				return <p className="error-message">Error Loading Data</p>
+		}
+	}
+
 	return (
 		<div className="album">
 			<h1>Photo Album Viewer</h1>
-			{status === 'failed' && <p className="error-message">{error}</p>}
-			{/* Cards */}
-			{status === 'succeeded' && (
-				<div>
-					<Cards />
-					<PageControl />
-				</div>
-			)}
-			{/* Modal */}
-			{isOpen && <Modal />}
+			{renderedOptions()}
 		</div>
 	)
 }
