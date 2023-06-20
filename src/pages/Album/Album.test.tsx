@@ -209,13 +209,17 @@ describe('Album', () => {
 	// Button tests
 	it('Should load with previous button disabled as will be the first set of paginated data', async () => {
 		renderAlbum()
-		const previousButton: HTMLButtonElement = await screen.findByText('Previous')
+		const previousButton: HTMLButtonElement = await screen.findByRole('button', {
+			name: 'Go to previous page',
+		})
 		expect(previousButton.disabled).toBeTruthy()
 	})
 
 	it('Should disable the next button when on the last set of paginated data', async () => {
 		renderAlbum()
-		const nextButton: HTMLButtonElement = await screen.findByText('Next')
+		const nextButton: HTMLButtonElement = await screen.findByRole('button', {
+			name: 'Go to next page',
+		})
 		fireEvent.click(nextButton)
 		expect(nextButton.disabled).toBeTruthy()
 	})

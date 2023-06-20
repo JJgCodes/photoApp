@@ -1,26 +1,25 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
-import { incrementPage, decrementPage } from '../../state/pageSlice'
+import { setPage } from '../../state/pageSlice'
+import Pagination from '@mui/material/Pagination'
 
 const PageControl = () => {
-	const { page: currentPage } = useSelector((state: RootState) => state.currentPage)
-    const { paginatedData } = useSelector((state: RootState) => state.paginatedData)
+	const { page } = useSelector((state: RootState) => state.currentPage)
+	const { paginatedData } = useSelector((state: RootState) => state.paginatedData)
 
 	const dispatch = useDispatch<AppDispatch>()
-	const nextPage = () => dispatch(incrementPage())
-	const previousPage = () => dispatch(decrementPage())
+	const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+		dispatch(setPage(value))
+	}
 
 	return (
 		<div className="pagination">
-			<button disabled={currentPage === 1} onClick={() => previousPage()}>
-				Previous
-			</button>
-			<span>
-				{currentPage} / {paginatedData.length}
-			</span>
-			<button disabled={currentPage === paginatedData.length} onClick={() => nextPage()}>
-				Next
-			</button>
+			<Pagination
+				count={paginatedData.length}
+				variant="outlined"
+				onChange={handlePageChange}
+				page={page}
+			/>
 		</div>
 	)
 }

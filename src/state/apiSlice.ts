@@ -2,14 +2,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchPhotoData from '../services/api'
 import { Picture } from '../pages/Album/Album'
 
-
-
 export enum Status {
 	Loading = 'loading',
 	Succeeded = 'succeeded',
 	Failed = 'failed',
 }
-
 
 interface apiState {
 	data: Picture[]

@@ -8,14 +8,11 @@ const pageSlice = createSlice({
 	name: 'currentPage',
 	initialState,
 	reducers: {
-		incrementPage(state) {
-			state.page += 1
-		},
-		decrementPage(state) {
-			state.page -= 1
+		setPage(state, action) {
+			state.page = action.payload
 		},
 	},
 })
 
-export const { incrementPage, decrementPage } = pageSlice.actions
+export const { setPage } = pageSlice.actions
 export default pageSlice.reducer
