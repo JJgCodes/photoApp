@@ -6,6 +6,8 @@ import { getPhotoData, Status } from '../../state/apiSlice'
 import { AppDispatch, RootState } from '../../store'
 import { useDispatch, useSelector } from 'react-redux'
 import PageControl from './PageControl'
+import { Container, Typography, Box } from '@mui/material'
+
 
 export interface Picture {
 	albumId: number
@@ -19,7 +21,6 @@ const Album = () => {
 	// redux state
 	const dispatch = useDispatch<AppDispatch>()
 	const { error, status } = useSelector((state: RootState) => state.photoData)
-	const { isOpen } = useSelector((state: RootState) => state.modal)
 
 	useEffect(() => {
 		dispatch(getPhotoData())
@@ -33,11 +34,11 @@ const Album = () => {
 				return <p className="error-message">{error}</p>
 			case Status.Succeeded:
 				return (
-					<div>
+					<Container>
 						<Cards />
 						<PageControl />
-						{isOpen && <Modal />}
-					</div>
+						<Modal />
+					</Container>
 				)
 			default:
 				return <p className="error-message">Error Loading Data</p>
@@ -45,11 +46,13 @@ const Album = () => {
 	}
 
 	return (
-		<div className="album">
-			<h1>Photo Album Viewer</h1>
+		<Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" my={5}>
+			<Typography variant="h3" gutterBottom>
+				Photo Album Viewer
+			</Typography>
 			{/* render the status/outcome */}
 			{renderedOptions()}
-		</div>
+		</Box>
 	)
 }
 

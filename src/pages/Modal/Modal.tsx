@@ -3,10 +3,13 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
 import { setModalOpen, setModalPicture } from '../../state/modalSlice'
+import { Modal as ModalComponent, Box, Typography, IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 const Modal = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
+	const { isOpen } = useSelector((state: RootState) => state.modal)
 
 	const dispatch = useDispatch<AppDispatch>()
 	const { picture } = useSelector((state: RootState) => state.modal) // Access the state from Redux
@@ -24,31 +27,57 @@ const Modal = () => {
 		dispatch(setModalPicture([]))
 	}
 
-	const CloseButton = ({ testId }: { testId?: string }) => {
-		return (
-			<button data-testid={testId || ''} className="close-button" onClick={handleModalClose}>
-				X
-			</button>
-		)
+	const style = {
+		position: 'absolute' as 'absolute',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)',
 	}
 
 	return (
-		<div className="modal" onClick={handleModalClose}>
-			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
+		<ModalComponent onClose={handleModalClose} open={isOpen} disableEnforceFocus>
+			<Box sx={style}>
 				{isError && !isLoading ? (
-					<div className="error-text">
-						<CloseButton />
-						<p>Error loading image</p>
-					</div>
+					<Box
+						sx={{
+							bgcolor: 'white',
+							padding: 2,
+							display: 'flex',
+						}}
+					>
+						<IconButton
+							onClick={handleModalClose}
+							sx={{
+								marginLeft: 'auto',
+							}}
+						>
+							<CloseIcon />
+						</IconButton>
+						<Typography>Error loading image</Typography>
+					</Box>
 				) : (
-					<div>
-						{isLoading && (
-							<div className="loading-text">
-								<p>Loading.....</p>
-								<CloseButton />
-							</div>
-						)}
-						<div className={isLoading ? 'modal-unloaded' : 'modal-loaded'}>
+					<Box>
+						<Box
+							sx={{
+								flexDirection: 'column',
+								justifyContent: 'space-between',
+								gap: 2,
+							}}
+						>
+							<Box
+								sx={{
+									marginLeft: 'auto',
+								}}
+							>
+								<IconButton onClick={handleModalClose}>
+									<CloseIcon
+										sx={{
+											color: 'white',
+										}}
+									/>
+								</IconButton>
+							</Box>
+							{isLoading && <Typography>Loading.....</Typography>}
 							<img
 								data-testid="thumbnail-img"
 								className="thumbnail-img"
@@ -57,12 +86,11 @@ const Modal = () => {
 								onLoad={handleImageLoad}
 								onError={handleImageError}
 							/>
-							<CloseButton testId={'loaded-close-button'} />
-						</div>
-					</div>
+						</Box>
+					</Box>
 				)}
-			</div>
-		</div>
+			</Box>
+		</ModalComponent>
 	)
 }
 

@@ -6,6 +6,8 @@ import { AppDispatch, RootState } from '../../store'
 import { setPaginatedData } from '../../state/paginationSlice'
 import paginate from '../../utils/pagination'
 import { setModalOpen, setModalPicture } from '../../state/modalSlice'
+import { Card, CardMedia, CardContent, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 
 const Cards = () => {
 	const dispatch = useDispatch<AppDispatch>()
@@ -19,7 +21,7 @@ const Cards = () => {
 		dispatch(setPaginatedData(paginate(data)))
 	}, [dispatch, data])
 
-	const Card = ({ picture }: { picture: Picture }) => {
+	const CardItem = ({ picture }: { picture: Picture }) => {
 		const [isLoading, setIsLoading] = useState(true)
 		const [isError, setIsError] = useState(false)
 
@@ -38,35 +40,48 @@ const Cards = () => {
 		}
 
 		return (
-			<div className="card" onClick={handleCardClick}>
+			<Card
+				sx={{
+					maxWidth: 150,
+					margin: 2,
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+					'&:hover': { transform: 'scale3d(1.02, 1.02, 1)' },
+				}}
+				onClick={() => handleCardClick()}
+			>
 				{isError && !isLoading && (
-					<div className="error-text" data-testid={picture.title}>
-						<p>Error loading image</p>
-					</div>
+					<Typography className="error-text" data-testid={picture.title}>
+						Error loading image
+					</Typography>
 				)}
-				<div className="img-container">
-					{isLoading && <p className="loading-text">Loading.....</p>}
-					<img
-						src={picture.thumbnailUrl}
-						alt={picture.title}
-						onLoad={handleImageLoad}
-						onError={handleImageError}
-					/>
-				</div>
-				<div className="card-content">
-					<h5 className="card-title">{picture.title}</h5>
-					<p className="card-album-id">Album ID: {picture.albumId}</p>
-				</div>
-			</div>
+				{isLoading && <Typography className="loading-text">Loading.....</Typography>}
+				<CardMedia
+					component="img"
+					image={picture.thumbnailUrl}
+					alt={picture.title}
+					onLoad={handleImageLoad}
+					onError={handleImageError}
+				/>
+
+				<CardContent>
+					<Typography gutterBottom>{picture.title}</Typography>
+				</CardContent>
+				<CardContent>
+					<Typography variant="body2" color="text.secondary">
+						Album ID: {picture.albumId}
+					</Typography>
+				</CardContent>
+			</Card>
 		)
 	}
 
 	return (
-		<div className="card-container">
-			{currentData && currentData.map((picture: Picture, index) => (
-				<Card key={index} picture={picture} />
-			))}
-		</div>
+		<Box display="flex" justifyContent="center" flexWrap="wrap">
+			{currentData &&
+				currentData.map((picture: Picture, index) => <CardItem key={index} picture={picture} />)}
+		</Box>
 	)
 }
 
