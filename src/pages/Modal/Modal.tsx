@@ -20,11 +20,13 @@ const Modal = () => {
 	const handleImageError = () => {
 		setIsLoading(false)
 		setIsError(true)
+		setIsError(false)
 	}
 
 	const handleModalClose = () => {
 		dispatch(setModalOpen(false))
 		dispatch(setModalPicture([]))
+		setIsLoading(true)
 	}
 
 	const style = {
@@ -45,13 +47,8 @@ const Modal = () => {
 							display: 'flex',
 						}}
 					>
-						<IconButton
-							onClick={handleModalClose}
-							sx={{
-								marginLeft: 'auto',
-							}}
-						>
-							<CloseIcon />
+						<IconButton onClick={handleModalClose}>
+							<CloseIcon fontSize="small" />
 						</IconButton>
 						<Typography>Error loading image</Typography>
 					</Box>
@@ -77,7 +74,16 @@ const Modal = () => {
 									/>
 								</IconButton>
 							</Box>
-							{isLoading && <Typography>Loading.....</Typography>}
+							{isLoading && (
+								<Typography
+									sx={{
+										bgcolor: 'white',
+										padding: 2,
+									}}
+								>
+									Loading.....
+								</Typography>
+							)}
 							<img
 								data-testid="thumbnail-img"
 								className="thumbnail-img"
