@@ -42,7 +42,7 @@ const Cards = () => {
 			<Card
 				sx={{
 					maxHeight: 400,
-					maxWidth: 150,
+					width: 180,
 					margin: 2,
 					display: 'flex',
 					flexDirection: 'column',
@@ -56,7 +56,7 @@ const Cards = () => {
 						Error loading image
 					</Typography>
 				)}
-				{isLoading && <Typography className="loading-text">Loading.....</Typography>}
+				{isLoading && <Typography>Loading.....</Typography>}
 				<CardMedia
 					component="img"
 					image={picture.thumbnailUrl}
