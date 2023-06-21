@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Picture } from '../../pages/Album/Album'
-import './Card.css'
 import { useEffect, useState } from 'react'
 import { AppDispatch, RootState } from '../../store'
 import { setPaginatedData } from '../../state/paginationSlice'
@@ -42,6 +41,7 @@ const Cards = () => {
 		return (
 			<Card
 				sx={{
+					maxHeight: 400,
 					maxWidth: 150,
 					margin: 2,
 					display: 'flex',
@@ -68,17 +68,26 @@ const Cards = () => {
 				<CardContent>
 					<Typography gutterBottom>{picture.title}</Typography>
 				</CardContent>
-				<CardContent>
-					<Typography variant="body2" color="text.secondary">
-						Album ID: {picture.albumId}
-					</Typography>
+				<CardContent
+					sx={{
+						margin: 0,
+					}}
+					className="card-album-id"
+				>
+					<Typography color="text.secondary">Album ID: {picture.albumId}</Typography>
 				</CardContent>
 			</Card>
 		)
 	}
 
 	return (
-		<Box display="flex" justifyContent="center" flexWrap="wrap">
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				flexWrap: 'wrap',
+			}}
+		>
 			{currentData &&
 				currentData.map((picture: Picture, index) => <CardItem key={index} picture={picture} />)}
 		</Box>

@@ -1,4 +1,3 @@
-import './Album.css'
 import Cards from '../../components/Card/Card'
 import Modal from '../Modal/Modal'
 import { useEffect } from 'react'
@@ -7,6 +6,8 @@ import { AppDispatch, RootState } from '../../store'
 import { useDispatch, useSelector } from 'react-redux'
 import PageControl from './PageControl'
 import { Container, Typography, Box } from '@mui/material'
+import './Album.css'
+
 
 
 export interface Picture {
@@ -29,9 +30,9 @@ const Album = () => {
 	const renderedOptions = () => {
 		switch (status) {
 			case Status.Loading:
-				return <p className="loading-message">Loading....</p>
+				return <Typography className="loading-message">Loading....</Typography>
 			case Status.Failed:
-				return <p className="error-message">{error}</p>
+				return <Typography className="error-message">{error}</Typography>
 			case Status.Succeeded:
 				return (
 					<Container>
@@ -46,8 +47,11 @@ const Album = () => {
 	}
 
 	return (
-		<Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" my={5}>
-			<Typography variant="h3" gutterBottom>
+		<Box sx={{
+			textAlign: 'center',
+			marginBottom: 5
+		}}>
+			<Typography variant="h3" gutterBottom fontFamily='Source Code Pro'>
 				Photo Album Viewer
 			</Typography>
 			{/* render the status/outcome */}

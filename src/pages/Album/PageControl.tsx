@@ -14,7 +14,11 @@ const PageControl = () => {
 	}
 
 	return (
-		<Box display="flex" justifyContent="center" mt={5}>
+		<Box sx={{
+			marginTop: 2, 
+			display: 'flex',
+			justifyContent: "center"
+		}}>
 			<Pagination
 				count={paginatedData.length}
 				variant="outlined"
