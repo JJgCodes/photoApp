@@ -3,10 +3,9 @@ import { Picture } from '../../pages/Album/Album'
 import { useEffect, useState } from 'react'
 import { AppDispatch, RootState } from '../../store'
 import { setPaginatedData } from '../../state/paginationSlice'
-import paginate from '../../utils/pagination'
 import { setModalOpen, setModalPicture } from '../../state/modalSlice'
-import { Card, CardMedia, CardContent, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material'
+import paginate from '../../utils/pagination'
 
 const Cards = () => {
 	const dispatch = useDispatch<AppDispatch>()
